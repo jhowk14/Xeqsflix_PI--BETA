@@ -115,7 +115,7 @@ const Auth = () => {
               </div>
             </div>
             <p className="text-neutral-500 mt-12">
-              {variant === 'login' ? 'sua primeira vez na netflix?' : 'davi e gay?'}
+              {variant === 'login' ? 'Sua primeira vez na netflix?' : 'Ja tem uma conta?'}
               <span onClick={toggleVariant} className="text-white ml-1 hover:underline cursor-pointer">
                 {variant === 'login' ? 'Create an account' : 'Login'}
               </span>
