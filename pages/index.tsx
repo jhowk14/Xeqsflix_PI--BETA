@@ -3,6 +3,7 @@ import { NextPageContext } from 'next';
 import { getSession } from 'next-auth/react';
 
 import Navbar from '@/components/Navbar';
+import { MovieInterface } from '@/types';
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -16,18 +17,37 @@ export async function getServerSideProps(context: NextPageContext) {
     }
   }
 
+  const movies = await prismadb.movie.findMany();
+
+  const serializedMovies = movies.map((movie) => ({
+    ...movie,
+  }));
+
   return {
-    props: {}
-  }
+    props: {
+      movies: serializedMovies,
+    },
+  };
 }
 
-const Home = () => {
+const Home = ({movies}:{movies : MovieInterface[]}) => {
 
   return (
     <>
       
-      <Navbar />
+      
       <div className="pb-40">
+        {movies.map((movie) => (
+          <div key={movie.id} className=''>
+
+            <h2 className="text-white hover:text-gray-500 cursor-pointer ">{movie.id}</h2>
+            <h2 className="text-white hover:text-gray-500 cursor-pointer ">{movie.title}</h2>
+            <h2 className="text-white hover:text-gray-500 cursor-pointer ">{movie.duration}</h2>
+            <img src={movie.thumbnailUrl} alt="" />
+          </div>
+            
+         
+         ))}
       </div>
     </>
   )

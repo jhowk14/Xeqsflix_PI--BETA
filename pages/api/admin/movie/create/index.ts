@@ -1,22 +1,27 @@
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'DELETE') {
+  if (req.method === 'POST') {
     try {
-    const { id } = req.query
 
-    const updateUser = await prisma.user.delete({
-        where: {
-          email: String(id)
-        }
+    const { description, genre, duration, thumbnailUrl, title, videoUrl } = req.body;
+
+    const creteMovie = await prisma.movie.create({
+        data: {
+            description,
+            genre,
+            duration,
+            thumbnailUrl,
+            title,
+            videoUrl
+          }
       })
 
       return res.status(200).json({
-        data: updateUser,
+        data: creteMovie,
       });
 
     } catch (error) {
